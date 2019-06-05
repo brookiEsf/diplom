@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\PersonalInfo;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -12,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\User;
 
 /**
  * Site controller
@@ -164,10 +166,6 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionPersonalinfo()
-    {
-        return $this->render('personalinfo');
-    }
     /**
      * Requests password reset.
      *
@@ -215,5 +213,36 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionPersonalinfo()
+    {
+
+//        $model = new SignupForm();
+//        if ($model->load(Yii::$app->request->post())) {
+//            return $this->render('personalinfo', [
+//                'model' => $model, 'form'=>''
+//            ]);
+
+        $id=Yii::$app->user->id;
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
+
+        return $this->render('personalinfo', [
+            'model' => $model
+        ]);
+    }
+
+    public function findModel($id)
+    {
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

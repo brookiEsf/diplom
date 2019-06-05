@@ -17,7 +17,7 @@ use Yii;
  *
  * @property CategoriesImages[] $categoriesImages
  * @property Images[] $images
- * @property ProductsCategory[] $productsCategories
+ * @property ProductsCategories[] $productsCategories
  * @property Products[] $products
  */
 class Categories extends \yii\db\ActiveRecord
@@ -36,11 +36,18 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cat_name', 'cat_description'], 'required'],
+            [['cat_name'], 'required'],
             [['date_deleted', 'date_created', 'date_updated'], 'safe'],
             [['status'], 'integer'],
-            [['cat_name', 'cat_description'], 'string', 'max' => 95],
+            [['cat_name'], 'string', 'max' => 95],
             [['cat_name'], 'unique'],
+            [
+                ['parentId'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Categories::className(),
+                'targetAttribute' => ['parentId' => 'id']
+            ],
         ];
     }
 
@@ -51,8 +58,9 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'parentId' => 'Parent ID',
             'cat_name' => 'Cat Name',
-            'cat_description' => 'Cat Description',
+       //     'cat_description' => 'Cat Description',
             'date_deleted' => 'Date Deleted',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
@@ -63,6 +71,18 @@ class Categories extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getParent()
+    {
+        return $this->hasOne(Categories::className(), ['id' => 'parentId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategories()
+    {
+        return $this->hasMany(Categories::className(), ['parentId' => 'id']);
+    }
 //    public function getCategoriesImages()
 //    {
 //        return $this->hasMany(CategoriesImages::className(), ['categories_id' => 'id']);
@@ -81,7 +101,7 @@ class Categories extends \yii\db\ActiveRecord
      */
     public function getProductsCategories()
     {
-        return $this->hasMany(ProductsCategory::className(), ['category_id' => 'id']);
+        return $this->hasMany(ProductsCategories::className(), ['category_id' => 'id']);
     }
 
     /**

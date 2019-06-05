@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\CategorySearch;
 use Yii;
 use common\models\Categories;
 use yii\data\ActiveDataProvider;
@@ -35,13 +36,16 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Categories::find(),
-        ]);
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => Categories::find(),
+//        ]);
+//
+//        return $this->render('index', [
+//            'dataProvider' => $dataProvider,
+//        ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        $categories = CategorySearch::getParentCategories();
+        return $this->render('index', compact('categories'));
     }
 
     /**

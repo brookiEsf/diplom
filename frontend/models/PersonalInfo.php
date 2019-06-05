@@ -1,18 +1,23 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: olgakvatkovska
+ * Date: 2019-06-04
+ * Time: 15:22
+ */
+
 namespace frontend\models;
 
-use common\models\SexTrait;
 use yii\base\Model;
-use common\models\User;
 
 /**
- * Signup form
+ * PersonalInfo
  */
-class SignupForm extends Model
+
+class PersonalInfo extends Model
 {
     public $username;
     public $email;
-    public $password;
     public $firstName;
     public $lastName;
     public $poBatkovi;
@@ -22,7 +27,7 @@ class SignupForm extends Model
     public $phone;
     public $city;
 
-    use SexTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -40,9 +45,6 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
-
             ['firstName', 'required'],
             ['firstName', 'string', 'min' => 2, 'max' => 255],
 
@@ -52,46 +54,40 @@ class SignupForm extends Model
             ['poBatkovi', 'required'],
             ['poBatkovi', 'string'],
 
-            ['gender', 'in', 'range' => $this->getSexAll()],
+            ['gender', 'required'],
+ //         ['gender', 'integer'],
 
             ['age', 'required'],
             ['age', 'integer'],
 
-            ['birthday', 'date', 'format' => 'php:Y-m-d'],
+            ['birthday', 'required'],
+            ['birthday', 'date'],
 
             ['phone', 'required'],
-            ['phone', 'string', 'min' => 11, 'max' => 15],
+            ['phone', 'string', 'min' => 15, 'max' => 15],
 
             ['city', 'required'],
             ['city', 'string'],
         ];
-    }
 
-    /**
-     * Signs user up.
-     *
-     * @return User|null the saved model or null if saving fails
-     */
-    public function signup()
+}
+
+    public function getPersonalInfo()
     {
         if (!$this->validate()) {
             return null;
         }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->firstName = $this->firstName;
-        $user->lastName = $this->lastName;
-        $user->poBatkovi = $this->poBatkovi;
-        $user->gender = $this->gender;
-        $user->age = $this->age;
-        $user->phone = $this->phone;
-        $user->birthday = $this->birthday;
-        $user->city = $this->city;
-        
-        return $user->save() ? $user : null;
-    }
-}
+
+        $personal_info = new PersonalInfo();
+        $personal_info->username = $this->username;
+        $personal_info->email = $this->email;
+        $personal_info->firstName = $this->firstName;
+        $personal_info->lastName = $this->lastName;
+        $personal_info->poBatkovi = $this->poBatkovi;
+        $personal_info->gender = $this->gender;
+        $personal_info->age = $this->age;
+        $personal_info->birthday = $this->birthday;
+        $personal_info->city = $this->city;
+
+        return $personal_info->save() ? $personal_info : null;
+    }}

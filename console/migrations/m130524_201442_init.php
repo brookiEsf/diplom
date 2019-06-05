@@ -19,10 +19,19 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+
+            'firstName' => $this->string(32)->notNull(),
+            'lastName' => $this->string(32)->notNull(),
+            'poBatkovi' => $this->string(32)->notNull(),
+            'gender' => $this->string(32)->notNull(),
+            'age' => $this->integer()->notNull(),
+            'birthday' =>$this->date(),
+            'phone' => $this->string(15)->notNull()->unique(),
+            'city' =>$this->string()->notNull(),
+            'role' => $this->smallInteger()->notNull()->defaultValue(1),
         ], $tableOptions);
     }
 

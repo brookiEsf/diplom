@@ -159,7 +159,7 @@ class ProductsController extends Controller
         if ($page < 1 && !is_numeric($page)) {
             $page = 1;
         }
-        $products = Products::find()->where(['is not', 'date_deleted', null])->andWhere([
+        $products = Products::find()->where(['is', 'date_deleted', null])->andWhere([
             '=',
             'status',
             '1'
