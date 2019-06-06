@@ -69,10 +69,10 @@ class Products extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-//    public function getProductsCategories()
-//    {
-//        return $this->hasMany(ProductsCategory::className(), ['products_id' => 'id']);
-//    }
+    public function getProductsCategories()
+    {
+        return $this->hasMany(ProductsCategory::className(), ['products_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -85,18 +85,18 @@ class Products extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-//    public function getProductsImages()
-//    {
-//        return $this->hasMany(ProductsImages::className(), ['products_id' => 'id']);
-//    }
-//
-//    /**
-//     * @return \yii\db\ActiveQuery
-//     */
-//    public function getImages()
-//    {
-//        return $this->hasMany(Images::className(), ['id' => 'images_id'])->viaTable('products_images', ['products_id' => 'id']);
-//    }
+    public function getProductsImages()
+    {
+        return $this->hasMany(ProductsImages::className(), ['products_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImages()
+    {
+        return $this->hasMany(Images::className(), ['id' => 'images_id'])->viaTable('products_images', ['products_id' => 'id']);
+    }
 
     public function getAllCategoriesAsArray()
     {

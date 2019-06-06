@@ -4,6 +4,7 @@ namespace frontend\models;
 use common\models\SexTrait;
 use yii\base\Model;
 use common\models\User;
+use Yii;
 
 /**
  * Signup form
@@ -93,5 +94,19 @@ class SignupForm extends Model
         $user->city = $this->city;
         
         return $user->save() ? $user : null;
+    }
+
+    protected function sendEmail($user)
+    {
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+                ['user' => $user]
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setTo($this->email)
+            ->setSubject('Account registration at ' . Yii::$app->name)
+            ->send();
     }
 }

@@ -136,6 +136,44 @@ class ShoppingCart extends \yii\db\ActiveRecord
         //print_r($product->productsShoppingCarts);
     }
 
+    public function deleteProductFromCart($product)
+    {
+        $junction = ProductsShoppingCart::find()->where(['products_id' => $product->id])->andWhere(['shopping_cart_id' => $this->id])->one();
+
+        if (isset($junction)) {
+            $junction->delete();
+            return true;
+        }
+        return false;
+    }
+
+    public function lessQuantityFromCart($product)
+    {
+        $junction = ProductsShoppingCart::find()->where(['products_id' => $product->id])->andWhere(['shopping_cart_id' => $this->id])->one();
+
+        if(isset($junction) & $junction->quantity==1){
+            $this->deleteProductFromCart($product);
+            return true;
+        }
+
+        if (isset($junction)) {
+            $junction->quantity--;
+            return $junction->save();
+//            return true;
+        }
+        return false;
+    }
+
+    public function moreQuantityToCart($product)
+    {
+        $junction = ProductsShoppingCart::find()->where(['products_id' => $product->id])->andWhere(['shopping_cart_id' => $this->id])->one();
+
+        if (isset($junction)) {
+            $junction->quantity++;
+            return $junction->save();
+        }
+        return false;
+    }
 
     /**
      * @return \yii\db\ActiveQuery

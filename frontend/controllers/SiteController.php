@@ -145,6 +145,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    public function actionContacts()
+    {
+        return $this->render('contacts');
+    }
+
     /**
      * Signs user up.
      *

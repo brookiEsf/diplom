@@ -17,6 +17,18 @@ $this->title = 'AUDIO BEAST';
     <div class="body-content">
 
         <div class="row">
+            <div class="col-md-12">
+                <div class="sl">
+                    <div><img src="/images/slider1.jpg"></scr></div>
+                    <div><img src="/images/slider2.jpg"></scr></div>
+                    <div><img src="/images/slider3.jpg"></scr></div>
+                    <div><img src="/images/slider4.jpg"></scr></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
 

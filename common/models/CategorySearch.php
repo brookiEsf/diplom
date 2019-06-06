@@ -26,6 +26,12 @@ class CategorySearch extends Categories
         return Categories::whereIsNull('parentId')->all();
     }
 
+public static function getCategoriesImages()
+{
+    $query = Categories::find()->where(['is', 'parentId', null])->with('categories')->all();
+
+    return $query;
+}
 
     /**
      * {@inheritdoc}
